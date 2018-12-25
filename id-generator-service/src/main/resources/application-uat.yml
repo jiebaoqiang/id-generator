@@ -1,0 +1,81 @@
+server:
+  port: 9999
+  connection-timeout: 5s  #此值控制keep-alive,慎用
+  tomcat:
+    min-spare-threads: 3
+    max-threads: 200
+    accept-count: 10000
+    max-connections: 10000
+spring:
+  application:
+    name: id-generator-service
+  banner:
+    charset: UTF-8
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  servlet:
+    multipart:
+      enabled: false
+  mvc:
+    servlet:
+      load-on-startup: -1
+      path: /
+      static-path-pattern: /**
+    view:
+      prefix: /jsp/
+      suffix: .jsp
+  resources:
+    static-locations: "classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/"
+  druid:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.0.2.212:3306/id_generator?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&useSSL=false
+    username: id_user
+    password: 6LuPo5H4CUjjKWdp
+    MaxActive: 30
+    initialSize: 5
+    validationQuery: SELECT 1;
+    testWhileIdle: true
+    testOnBorrow: true
+    testOnReturn: true
+    timeBetweenEvictionRunsMillis: 30000
+    removeAbandoned: true
+    removeAbandonedTimeout: 180
+    logAbandoned: true
+    maxWait: 60000
+    poolPreparedStatements: false
+    maxPoolPreparedStatementPerConnectionSize: 20
+    connectionInitSqls: set names utf8mb4;
+    filters: stat,config
+    connectionProperties: "stat.mergeSql=true;stat.slowSqlMillis=10000"
+  redis:
+    cluster:
+      nodes:
+        - 10.0.2.160:7001
+        - 10.0.2.160:7003
+        - 10.0.2.161:7002
+        - 10.0.2.161:7004
+        - 10.0.2.162:7005
+        - 10.0.2.162:7006
+      max-redirects: 6
+    jedis:
+      pool:
+        max-active: 300
+        max-idle: 300
+        min-idle: 8
+#        max-wait: -1s
+    password: "Youmi123#$^&("
+    timeout: 30000ms
+    ssl: false
+mybatis:
+  type-aliases-package: com.jhh.id.entity
+#  config-location:
+  mapper-locations: "classpath*:mapper/*Mapper.xml"
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+logging:
+  config: "classpath:logback-spring.xml"

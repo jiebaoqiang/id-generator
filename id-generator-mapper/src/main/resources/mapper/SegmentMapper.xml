@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jhh.id.mapper.SegmentMapper">
+
+  <select id="selectByPrimaryKey" parameterType="String" resultType="Segment">
+    <include refid="selectSQL"/>
+    <where>
+        t.BIZ_NAME = #{bizName}
+    </where>
+  </select>
+
+  <select id="selectList" resultType="Segment">
+    <include refid="selectSQL"/>
+  </select>
+
+  <update id="updateMaxId" parameterType="Segment">
+    UPDATE
+      id_segment t
+    SET
+      t.MAX_ID=t.MAX_ID + LEAST(t.STEP, 300000),
+      t.UPDATE_DATE=#{updateDate}
+    WHERE
+      t.BIZ_NAME = #{bizName}
+  </update>
+
+  <sql id="selectSQL">
+    SELECT
+      t.BIZ_NAME,
+      t.MAX_ID,
+      t.STEP,
+      t.TYPE
+    FROM
+      id_segment t
+  </sql>
+
+</mapper>
+
